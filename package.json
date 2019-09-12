@@ -1,0 +1,17 @@
+{
+  "name": "hapi-ipfs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^7.4.3",
+    "@hapi/hapi": "^18.3.2",
+    "axios": "^0.19.0",
+    "dotenv": "^8.1.0",
+    "form-data": "^2.5.1",
+    "gather-stream": "^1.0.0",
+    "ipfs-http-client": "^35.1.0",
+    "stream-slice": "^0.1.2",
+    "zlib": "^1.0.5"
+  }
+}
