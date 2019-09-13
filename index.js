@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const Axios = require('axios');
 const Hapi = require('@hapi/hapi');
 const ipfsClient = require('ipfs-http-client');
@@ -13,6 +14,8 @@ require('dotenv').config({
 
 const ipfs = ipfsClient({ host: process.env.IPFS_HOST, port: process.env.IPFS_PORT, protocol: process.env.IPFS_PROTOCOL });
 const baseIpfsUrl = process.env.IPFS_URL;
+
+let contentType;
 
 const init = async () => {
 
@@ -38,22 +41,30 @@ const init = async () => {
     options: {
       payload: {
         output: 'stream',
+        maxBytes: 100 * 1024 * 1024
       },
       handler: async (request, h) => {
-        const { file } = request.payload;
+        try {
+          const { file } = request.payload;
 
-        const encrypted = await encrypt({ data: file._data, password: '20Scoops!' });
+          const encrypted = await encrypt({ data: file._data, password: '20Scoops!' });
 
-        const result = await ipfs.add(encrypted);
-        console.log(result);
-        const { hash, size } = result[0];
+          const result = await ipfs.add(encrypted);
+          const { hash, size } = result[0];
 
-        return {
-          message: 'upload file',
-          url: `${baseIpfsUrl}${hash}`,
-          hash,
-          size
-        };
+          contentType = file.hapi.headers['content-type'];
+
+          return {
+            message: 'upload file',
+            url: `${baseIpfsUrl}${hash}`,
+            hash,
+            size,
+            contentType
+          };
+        } catch (e) {
+          console.log(e);
+          return e;
+        }
       }
     }
   });
@@ -77,7 +88,7 @@ const init = async () => {
 
         const decrypted = await decrypt({ rawStream: result.data, password: '20Scoops!'});
 
-        return h.response(decrypted).type('image/jpeg');
+        return h.response(decrypted).type(contentType);
       }
     }
   });
