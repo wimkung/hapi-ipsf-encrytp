@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^7.4.3",
-    "@hapi/hapi": "^18.3.2",
+    "@hapi/hapi": "^19.1.1",
     "axios": "^0.19.0",
     "dotenv": "^8.1.0",
     "form-data": "^2.5.1",
