@@ -6,7 +6,7 @@
   "dependencies": {
     "@hapi/boom": "^7.4.3",
     "@hapi/hapi": "^18.3.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.1.0",
     "form-data": "^2.5.1",
     "gather-stream": "^1.0.0",
